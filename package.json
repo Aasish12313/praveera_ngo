@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@nivo/bar": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "aws-sdk": "^2.1692.0",
+    "express": "^5.1.0",
+    "framer-motion": "^12.18.1",
+    "keen-slider": "^6.8.6",
+    "leaflet": "^1.9.4",
+    "memory-streams": "^0.1.3",
+    "mongoose": "^8.16.0",
+    "moongoose": "^0.0.5",
+    "nodemon": "^3.1.10",
+    "pdfkit": "^0.17.1",
+    "prop-types": "^15.8.1",
+    "razorpay": "^2.9.6",
+    "react-confetti": "^6.4.0",
+    "react-csv": "^2.2.2",
+    "react-leaflet": "^5.0.0",
+    "react-use": "^17.6.0",
+    "yup": "^1.6.1"
+  }
+}
