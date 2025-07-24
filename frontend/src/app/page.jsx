@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <div className="bg-[#fefdfc] text-[#1f1f1f]">
       <Navbar />
-{/* ayush */}
+
       {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-gradient-to-r from-pink-100 via-white to-green-100 py-20 px-6 md:px-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
