@@ -8,6 +8,8 @@ import Footer from '../../components/Footer';
 export default function UserGalleryPage() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const localImages = [
@@ -24,6 +26,23 @@ export default function UserGalleryPage() {
     setImages(localImages);
     setLoading(false);
   }, []);
+
+  const openModal = (index) => {
+    setCurrentIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const showPrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const showNext = () => {
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <>
@@ -42,7 +61,7 @@ export default function UserGalleryPage() {
 
       <Navbar />
 
-      <main className="pt-24 min-h-screen bg-gradient-to-br from-white to-gray-100 text-gray-800 px-4 sm:px-6 md:px-8 pb-16">
+      <main className="pt-24 min-h-screen bg-white text-gray-800 px-4 sm:px-6 md:px-8 pb-16">
         <section className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-4 text-green-700 tracking-wide drop-shadow-md">
             Our Impact Gallery
@@ -56,11 +75,12 @@ export default function UserGalleryPage() {
           ) : images.length === 0 ? (
             <p className="text-center text-gray-500">No images yet. Please check back soon.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-6">
               {images.map((img, index) => (
                 <article
                   key={index}
-                  className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white"
+                  className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white cursor-pointer"
+                  onClick={() => openModal(index)}
                 >
                   <img
                     src={img.imageUrl}
@@ -76,6 +96,38 @@ export default function UserGalleryPage() {
       </main>
 
       <Footer />
+
+      {/* Image Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+          <button
+            className="absolute top-6 right-6 text-white text-4xl font-bold"
+            onClick={closeModal}
+          >
+            &times;
+          </button>
+
+          <button
+            className="absolute left-6 text-white text-3xl font-bold"
+            onClick={showPrev}
+          >
+            &#8592;
+          </button>
+
+          <img
+            src={images[currentIndex].imageUrl}
+            alt={`Full View ${currentIndex + 1}`}
+            className="max-w-full max-h-[80vh] rounded-lg shadow-xl"
+          />
+
+          <button
+            className="absolute right-6 text-white text-3xl font-bold"
+            onClick={showNext}
+          >
+            &#8594;
+          </button>
+        </div>
+      )}
     </>
   );
 }
