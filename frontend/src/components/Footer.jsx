@@ -113,7 +113,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-10 pt-5 border-t border-green-200 text-center text-sm text-gray-500">
+      <div className="mt-10 pt-5 border-t border-green-200 text-center text-sm text-gray-500 bg-[#f0fdf4]">
         © {new Date().getFullYear()} Praveera Welfare Foundation. All rights reserved.
       </div>
     </footer>
