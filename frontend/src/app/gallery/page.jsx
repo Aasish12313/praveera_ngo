@@ -99,35 +99,36 @@ export default function UserGalleryPage() {
 
       {/* Image Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
-          <button
-            className="absolute top-6 right-6 text-white text-4xl font-bold"
-            onClick={closeModal}
-          >
-            &times;
-          </button>
+  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 ease-in-out">
+    <button
+      className="absolute top-6 right-6 text-white text-4xl font-bold"
+      onClick={closeModal}
+    >
+      &times;
+    </button>
 
-          <button
-            className="absolute left-6 text-white text-3xl font-bold"
-            onClick={showPrev}
-          >
-            &#8592;
-          </button>
+    <button
+      className="absolute left-6 text-white text-3xl font-bold"
+      onClick={showPrev}
+    >
+      &#8592;
+    </button>
 
-          <img
-            src={images[currentIndex].imageUrl}
-            alt={`Full View ${currentIndex + 1}`}
-            className="max-w-full max-h-[80vh] rounded-lg shadow-xl"
-          />
+    <img
+      src={images[currentIndex].imageUrl}
+      alt={`Full View ${currentIndex + 1}`}
+      className="max-w-full max-h-[80vh] rounded-lg shadow-xl"
+    />
 
-          <button
-            className="absolute right-6 text-white text-3xl font-bold"
-            onClick={showNext}
-          >
-            &#8594;
-          </button>
-        </div>
-      )}
+    <button
+      className="absolute right-6 text-white text-3xl font-bold"
+      onClick={showNext}
+    >
+      &#8594;
+    </button>
+  </div>
+)}
+
     </>
   );
 }
