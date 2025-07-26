@@ -26,7 +26,7 @@ const info = {
 
 const Footer = () => {
   return (
-    <footer className="bg-[#f0fdf4] text-[#1c1c1c] pt-16 pb-8 border-t border-green-200 mt-24">
+    <footer className="bg-[#f0fdf4] text-[#1c1c1c] pt-16 pb-8 border-t border-green-200">
       <div className="max-w-[1400px] mx-auto px-6 grid md:grid-cols-4 gap-12">
         {/* Branding & Socials */}
         <div>
@@ -34,7 +34,7 @@ const Footer = () => {
             Praveera Welfare<br />Foundation
           </h2>
           <p className="italic text-gray-600 mb-4">
-            "Together, we rise by lifting others."
+              "Empowering communities through social & cultural initiatives"
           </p>
           <div className="flex gap-4">
             {[info.socialLinks.instagram, info.socialLinks.facebook, info.socialLinks.twitter, info.socialLinks.linkedin].map((href, i) =>

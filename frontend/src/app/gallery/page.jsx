@@ -49,20 +49,20 @@ export default function UserGalleryPage() {
       <Head>
         <title>Impact Gallery | Pravira Socio Culture Welfare Foundation</title>
         <meta name="description" content="Explore real moments captured from Pravira's community development and cultural initiatives." />
-        <meta name="keywords" content="Pravira Foundation, NGO, Gallery, Social Work, Culture, Events" />
-        <meta name="author" content="Pravira Foundation" />
+        <meta name="keywords" content="Praveera Foundation, NGO, Gallery, Social Work, Culture, Events" />
+        <meta name="author" content="Praveera Foundation" />
         <meta property="og:title" content="Impact Gallery | Pravira Foundation" />
         <meta property="og:description" content="See the cultural and welfare impact Pravira is making across communities." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://pravirafoundation.org/gallery" />
-        <meta property="og:image" content="https://pravirafoundation.org/assets/gallery-cover.jpg" />
-        <link rel="canonical" href="https://pravirafoundation.org/gallery" />
+        <meta property="og:url" content="https://praveerafoundation.org/gallery" />
+        <meta property="og:image" content="https://praveerafoundation.org/assets/gallery-cover.jpg" />
+        <link rel="canonical" href="https://praveerafoundation.org/gallery" />
       </Head>
 
       <Navbar />
 
-      <main className="pt-24 min-h-screen bg-white text-gray-800 px-4 sm:px-6 md:px-8 pb-16">
-        <section className="max-w-7xl mx-auto">
+      <main className="pt-24 pb-10 bg-white text-gray-800 min-h-screen">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-4 text-green-700 tracking-wide drop-shadow-md">
             Our Impact Gallery
           </h1>
@@ -99,36 +99,35 @@ export default function UserGalleryPage() {
 
       {/* Image Modal */}
       {isModalOpen && (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 ease-in-out">
-    <button
-      className="absolute top-6 right-6 text-white text-4xl font-bold"
-      onClick={closeModal}
-    >
-      &times;
-    </button>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 ease-in-out">
+          <button
+            className="absolute top-6 right-6 text-white text-4xl font-bold"
+            onClick={closeModal}
+          >
+            &times;
+          </button>
 
-    <button
-      className="absolute left-6 text-white text-3xl font-bold"
-      onClick={showPrev}
-    >
-      &#8592;
-    </button>
+          <button
+            className="absolute left-6 text-white text-3xl font-bold"
+            onClick={showPrev}
+          >
+            &#8592;
+          </button>
 
-    <img
-      src={images[currentIndex].imageUrl}
-      alt={`Full View ${currentIndex + 1}`}
-      className="max-w-full max-h-[80vh] rounded-lg shadow-xl"
-    />
+          <img
+            src={images[currentIndex].imageUrl}
+            alt={`Full View ${currentIndex + 1}`}
+            className="max-w-full max-h-[80vh] rounded-lg shadow-xl"
+          />
 
-    <button
-      className="absolute right-6 text-white text-3xl font-bold"
-      onClick={showNext}
-    >
-      &#8594;
-    </button>
-  </div>
-)}
-
+          <button
+            className="absolute right-6 text-white text-3xl font-bold"
+            onClick={showNext}
+          >
+            &#8594;
+          </button>
+        </div>
+      )}
     </>
   );
 }

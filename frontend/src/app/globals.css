@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 /* styles/globals.css */
 html, body {
   overflow-x: hidden;
@@ -28,11 +29,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
 @keyframes float {
   0%   { transform: translateY(0px); }
   50%  { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
@@ -53,6 +56,7 @@ body {
   animation: slideIn 1s ease-out forwards;
 }
 
+/* Input Styles */
 .input-style {
   @apply w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800 shadow-sm focus:ring-2 focus:ring-orange-400 outline-none;
 }
@@ -82,6 +86,7 @@ html, body, #__next {
   margin: 0;
   padding: 0;
 }
+
 @keyframes slide {
   0% {
     transform: translateX(0%);
@@ -94,6 +99,7 @@ html, body, #__next {
 .animate-slide {
   animation: slide 40s linear infinite;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,4 +116,33 @@ html, body, #__next {
   .animate-loopSlide {
     animation: loopSlide 20s infinite linear;
   }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+/* ✅ New: Animated colorful line wave effect */
+@keyframes waveSlide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-waveSlide {
+  animation: waveSlide 18s linear infinite;
 }

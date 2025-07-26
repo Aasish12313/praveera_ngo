@@ -20,8 +20,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Saanjh Foundation – Empowering Rural Futures",
-  description: "Saanjh Foundation is a community-led NGO focused on rural education, women empowerment, and environmental sustainability.",
+  title: "Praveers Foundation – Empowering Rural Futures",
+  description: "Praveera Foundation is a community-led NGO focused on rural education, women empowerment, and environmental sustainability.",
 };
 
 export default function RootLayout({ children }) {
