@@ -272,7 +272,7 @@ const AboutPage = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Aarav Mehta',
+                name: 'Member1',
                 role: 'Founder & Director',
                 image: '/img7.png',
                 linkedin: '#',
@@ -280,7 +280,7 @@ const AboutPage = () => {
                 email: 'mailto:aarav@example.org',
               },
               {
-                name: 'Nisha Rao',
+                name: 'Member2',
                 role: 'Programs Head',
                 image: '/img2.png',
                 linkedin: '#',
@@ -288,7 +288,7 @@ const AboutPage = () => {
                 email: 'mailto:nisha@example.org',
               },
               {
-                name: 'Rahul Verma',
+                name: 'Member3',
                 role: 'Partnerships Lead',
                 image: '/img3.png',
                 linkedin: '#',

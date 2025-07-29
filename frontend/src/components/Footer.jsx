@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   FaFacebookF,
   FaInstagram,
@@ -28,34 +29,49 @@ const Footer = () => {
   return (
     <footer className="bg-[#f0fdf4] text-[#1c1c1c] pt-16 pb-8 border-t border-green-200">
       <div className="max-w-[1400px] mx-auto px-6 grid md:grid-cols-4 gap-12">
-        {/* Branding & Socials */}
-        <div>
-          <h2 className="text-3xl font-bold text-green-700 mb-3">
-            Praveera Welfare<br />Foundation
-          </h2>
-          <p className="italic text-gray-600 mb-4">
-              "Empowering communities through social & cultural initiatives"
+        {/* Logo, Tagline & Socials */}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3 mb-3">
+            <Image
+              src="/logo.png"
+              alt="Praveera Logo"
+              width={50}
+              height={50}
+              className="object-contain"
+            />
+            <h2 className="text-xl font-bold text-green-800 leading-tight">
+              Praveera Welfare <br />Foundation
+            </h2>
+          </div>
+          <p className="italic text-sm text-gray-600 mb-4">
+            "Empowering communities through social & cultural initiatives"
           </p>
-          <div className="flex gap-4">
-            {[info.socialLinks.instagram, info.socialLinks.facebook, info.socialLinks.twitter, info.socialLinks.linkedin].map((href, i) =>
-              href ? (
+          <div className="flex gap-3 mt-1">
+            {Object.entries(info.socialLinks).map(([key, href], i) => (
+              href && (
                 <a
-                  key={i}
+                  key={key}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center bg-green-100 hover:bg-green-300 text-green-700 rounded-full transition"
+                  aria-label={key}
                 >
                   {
-                    [<FaInstagram />, <FaFacebookF />, <FaTwitter />, <FaLinkedinIn />][i]
+                    {
+                      instagram: <FaInstagram />,
+                      facebook: <FaFacebookF />,
+                      twitter: <FaTwitter />,
+                      linkedin: <FaLinkedinIn />,
+                    }[key]
                   }
                 </a>
-              ) : null
-            )}
+              )
+            ))}
           </div>
         </div>
 
-        {/* Quick Links - Split into 2 Columns */}
+        {/* Quick Links */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-green-800">Quick Links</h3>
           <div className="grid grid-cols-2 gap-x-8 text-gray-700 text-sm">
@@ -97,15 +113,15 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Call to Action */}
+        {/* Donate CTA */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-green-800">Support Our Mission</h3>
-          <p className="text-gray-600 mb-4 text-sm">
-            Your contributions help us bring lasting change to communities in need.
+          <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+            Your contribution can help us bring lasting change to communities in need. Every step matters.
           </p>
           <Link
             href="/donate"
-            className="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg transition text-sm"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold transition text-sm"
           >
             Donate Now
           </Link>
