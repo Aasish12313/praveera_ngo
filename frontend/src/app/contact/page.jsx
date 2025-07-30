@@ -17,6 +17,8 @@ const Contact = () => {
   return (
     <div className="bg-gray-100 text-[#1f1f1f]">
       <Navbar />
+      <div className="pt-10">
+        </div>
 
       {/* HERO SECTION */}
       <section

@@ -134,7 +134,8 @@ const DonationPage = () => {
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <Navbar />
-
+      <div className="pt-10">
+        </div>
       <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-green-50 to-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           {/* Donation Form */}

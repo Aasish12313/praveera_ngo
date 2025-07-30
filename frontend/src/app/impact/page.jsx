@@ -62,8 +62,9 @@ const ImpactPage = () => {
 
   return (
     <div className="bg-white text-gray-800">
-      <Navbar />
-
+<Navbar />
+      <div className="pt-10">
+        </div>
       {/* Hero with Video Background */}
       <section className="relative h-[90vh] w-full overflow-hidden">
         <video

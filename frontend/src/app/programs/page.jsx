@@ -74,8 +74,9 @@ export default function Programs() {
 
   return (
     <div className="bg-white">
-      <Navbar />
-
+<Navbar />
+      <div className="pt-10">
+        </div>
 <section className="relative h-[70vh] mt-[80px] overflow-hidden">
   {/* Background Images */}
   {heroImages.map((img, i) => (

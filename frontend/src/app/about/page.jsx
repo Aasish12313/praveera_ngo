@@ -13,6 +13,8 @@ const AboutPage = () => {
   return (
     <>
       <Navbar />
+      <div className="pt-10">
+        </div>
 
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center bg-black text-white">
