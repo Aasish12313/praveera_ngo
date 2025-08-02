@@ -1,4 +1,3 @@
-// Same as your original file name and structure
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -134,8 +133,7 @@ const DonationPage = () => {
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <Navbar />
-      <div className="pt-10">
-        </div>
+      <div className="pt-10"></div>
       <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-green-50 to-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           {/* Donation Form */}
@@ -166,34 +164,31 @@ const DonationPage = () => {
                 <option value="Disaster Relief">Disaster Relief</option>
               </select>
 
-              {/* Amount Buttons + Custom Amount */}
               <div className="grid grid-cols-2 gap-4">
-  {[{ val: 100, label: 'One Day Meal' }, { val: 500, label: '10 Books' }, { val: 1000, label: 'Health Checkup' }, { val: 2000, label: 'Family Kit' }].map(({ val, label }) => (
-    <div
-      key={val}
-      onClick={() => setForm({ ...form, amount: val.toString() })}
-      className={`cursor-pointer border-2 rounded-lg p-4 text-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
-        form.amount === val.toString() ? 'border-green-700 bg-green-100' : 'border-gray-300 bg-white'
-      }`}
-    >
-      <div className="text-2xl font-bold text-green-800 mb-2">₹{val}</div>
-      <div className="text-sm text-gray-600">{label}</div>
-    </div>
-  ))}
-</div>
+                {[{ val: 100, label: 'One Day Meal' }, { val: 500, label: '10 Books' }, { val: 1000, label: 'Health Checkup' }, { val: 2000, label: 'Family Kit' }].map(({ val, label }) => (
+                  <div
+                    key={val}
+                    onClick={() => setForm({ ...form, amount: val.toString() })}
+                    className={`cursor-pointer border-2 rounded-lg p-4 text-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                      form.amount === val.toString() ? 'border-green-700 bg-green-100' : 'border-gray-300 bg-white'
+                    }`}
+                  >
+                    <div className="text-2xl font-bold text-green-800 mb-2">₹{val}</div>
+                    <div className="text-sm text-gray-600">{label}</div>
+                  </div>
+                ))}
+              </div>
 
-{/* Custom Amount */}
-<div className="mt-4">
-  <input
-    type="number"
-    placeholder="Enter Amount"
-    name="amount"
-    value={form.amount}
-    onChange={handleInput}
-    className="w-full mt-2 border border-black px-4 py-2 rounded shadow placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-  />
-</div>
-
+              <div className="mt-4">
+                <input
+                  type="number"
+                  placeholder="Enter Amount"
+                  name="amount"
+                  value={form.amount}
+                  onChange={handleInput}
+                  className="w-full mt-2 border border-black px-4 py-2 rounded shadow placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
 
               <button className="bg-green-700 text-white py-2 rounded mt-4 hover:bg-green-800" onClick={payNow}>
                 Donate Now
@@ -233,8 +228,22 @@ const DonationPage = () => {
                 <div className="flex items-center gap-2"><FaUtensils className="text-green-600" /> ₹200 = 5 meals</div>
                 <div className="flex items-center gap-2"><FaHeart className="text-green-600" /> ₹2000 = 1 family kit</div>
               </div>
-            </div>
 
+              {/* Contact Us Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="text-right"
+              >
+                <a
+                  href="/contact"
+                  className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
+                >
+                  📞 Contact Us
+                </a>
+              </motion.div>
+            </div>
           </div>
         </div>
       </main>
