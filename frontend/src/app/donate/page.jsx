@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Script from 'next/script';
 import Image from 'next/image';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { toast } from 'react-hot-toast';
@@ -132,8 +131,7 @@ const DonationPage = () => {
   return (
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <Navbar />
-      <div className="pt-20"></div>
+      
       <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-green-50 to-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           {/* Donation Form */}
@@ -264,7 +262,6 @@ const DonationPage = () => {
       </main>
 
     
-      <Footer />
     </>
   );
 };
