@@ -229,25 +229,41 @@ const DonationPage = () => {
                 <div className="flex items-center gap-2"><FaHeart className="text-green-600" /> ₹2000 = 1 family kit</div>
               </div>
 
-              {/* Contact Us Button */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-right"
-              >
-                <a
-                  href="/contact"
-                  className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
-                >
-                  📞 Contact Us
-                </a>
-              </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.3, duration: 0.6 }}
+  className="text-right"
+>
+  <a
+    href="/contact"
+    className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
+  >
+    📞 Contact Us
+  </a>
+
+  {/* Embedded Video Section */}
+  <div className="mt-6">
+    <textarea name="Our " id=""></textarea>
+    <video
+      src="/vid.mp4" // make sure this video is in public/video/
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full max-w-full mx-auto rounded-lg shadow-lg border border-green-600"
+      
+    />
+  </div>
+</motion.div>
+
             </div>
           </div>
         </div>
       </main>
 
+    
       <Footer />
     </>
   );
