@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Link from 'next/link'; // Make sure this import is at the top
+
 
 
 const heroImages = [
@@ -154,26 +156,29 @@ export default function Programs() {
         </div>
       </section>
 
-      {/* Partner Logos Slider */}
-      <section className="bg-white py-12">
-        <h3 className="text-center text-3xl font-semibold mb-8 text-[#00bcd4]">
-          Our Partners
-        </h3>
-        <div className="overflow-hidden relative w-full">
-          <div className="flex animate-scroll gap-10 px-10">
-            {[...partners, ...partners].map((logo, i) => (
-              <Image
-                key={i}
-                src={logo}
-                alt={`partner-${i}`}
-                width={120}
-                height={80}
-                className="object-contain"
-              />
-            ))}
+{/* Partner Logos Slider */}
+<section className="bg-white py-16">
+  <h3 className="text-center text-3xl font-bold mb-12 text-[#00bcd4]">
+    Partners & Collaborators
+  </h3>
+  <div className="overflow-hidden w-full">
+    <div className="flex animate-scroll gap-20 px-12 items-center">
+      {[...partners, ...partners].map((logo, i) => (
+        <Link key={i} href="/partners" passHref>
+          <div className="min-w-[160px] h-32 relative flex items-center justify-center">
+            <Image
+              src={logo}
+              alt={`partner-${i}`}
+              fill
+              className="object-contain w-full h-full transition-transform duration-300 hover:scale-105"
+            />
           </div>
-        </div>
-      </section>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
+
 
     
     </div>

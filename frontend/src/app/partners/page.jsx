@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -26,6 +25,18 @@ const partners = [
     logo: '/partners/tata.png',
     url: 'https://www.tatatrusts.org/',
   },
+  {
+    name: 'Infosys Foundation',
+    description: 'Driving rural education and skill development programs.',
+    logo: '/partners/infosys.png',
+    url: 'https://www.infosys.com/infosys-foundation.html',
+  },
+  {
+    name: 'Microsoft Philanthropies',
+    description: 'Promoting accessible technology for underprivileged communities.',
+    logo: '/partners/microsoft.png',
+    url: 'https://www.microsoft.com/philanthropies',
+  },
 ];
 
 const collaborators = [
@@ -47,28 +58,48 @@ const collaborators = [
     logo: '/partners/gates.png',
     url: 'https://www.gatesfoundation.org/',
   },
+  {
+    name: 'World Bank',
+    description: 'Collaborating on sustainable development and clean water access.',
+    logo: '/partners/worldbank.png',
+    url: 'https://www.worldbank.org/',
+  },
+  {
+    name: 'Bill & Melinda Gates Foundation India',
+    description: 'Expanding healthcare equity and digital health in India.',
+    logo: '/partners/gatesindia.png',
+    url: 'https://www.gatesfoundation.org/about/regions/india-office',
+  },
 ];
 
 const PartnersPage = () => {
   return (
     <div className="bg-white text-green-900">
-     
-
       {/* Hero Section */}
-      <section className="pt-28 pb-20 bg-gradient-to-r from-pink-100 via-blue-100 to-green-100 text-center">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
+      <section className="pt-36 pb-32 bg-gradient-to-r from-pink-100 via-blue-100 to-green-100 text-center relative overflow-hidden">
+        <div className="absolute w-64 h-64 bg-pink-200 rounded-full top-0 -left-20 opacity-30 blur-2xl animate-pulse"></div>
+        <div className="absolute w-80 h-80 bg-blue-200 rounded-full bottom-0 -right-32 opacity-30 blur-2xl animate-pulse"></div>
+        <div className="max-w-4xl mx-auto px-6 relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold text-blue-900 mb-6">
             Partners & Collaborators
           </h1>
-          <p className="text-lg md:text-xl text-green-800 mb-6">
+          <p className="text-lg md:text-xl text-green-800 mb-8">
             United by purpose, strengthened by partnership. Together we create lasting impact.
           </p>
-          <a
-            href="/contact"
-            className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-semibold shadow transition"
-          >
-            Become a Partner
-          </a>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="/contact"
+              className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-semibold shadow transition"
+            >
+              Become a Partner
+            </a>
+            <a
+              href="/about"
+              className="bg-white border border-pink-600 text-pink-600 px-6 py-3 rounded-full font-semibold hover:bg-pink-50 transition"
+            >
+              Learn More
+            </a>
+          </div>
         </div>
       </section>
 
@@ -82,7 +113,7 @@ const PartnersPage = () => {
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 2500 }}
           loop={true}
           pagination={{ clickable: true }}
           modules={[Autoplay, Pagination]}
@@ -120,7 +151,7 @@ const PartnersPage = () => {
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
-          autoplay={{ delay: 3500 }}
+          autoplay={{ delay: 3000 }}
           loop={true}
           pagination={{ clickable: true }}
           modules={[Autoplay, Pagination]}
@@ -147,7 +178,6 @@ const PartnersPage = () => {
           ))}
         </Swiper>
       </section>
-
     </div>
   );
 };
