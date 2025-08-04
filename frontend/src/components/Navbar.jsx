@@ -16,6 +16,7 @@ const Navbar = () => {
     { name: 'Initiatives', path: '/programs' },
     { name: 'Our Reach', path: '/impact' },
     { name: 'Moments', path: '/gallery' },
+    { name: 'Partners & Collaborators', path: '/partners' },
     { name: 'Join the Cause', path: '/contact' },
   ];
 
@@ -28,7 +29,7 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-green-50 shadow-md' : 'bg-green-50'
+        scrolled ? 'bg-white shadow-md' : 'bg-white'
       }`}
     >
       <div className="w-full px-4 md:px-6 lg:px-10 py-1 flex items-center justify-between">
@@ -37,8 +38,8 @@ const Navbar = () => {
           <Image
             src="/logo2.png"
             alt="Logo"
-            width={120}
-            height={45}
+            width={150}
+            height={150}
             className="object-contain"
           />
         </Link>
@@ -79,7 +80,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       {menuOpen && (
-        <div className="md:hidden bg-green-50 px-6 py-3 space-y-3 shadow border-t border-gray-200">
+        <div className="md:hidden bg-white px-6 py-3 space-y-3 shadow border-t border-gray-200">
           {navItems.map((item) => (
             <Link
               key={item.name}

@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 
 const heroImages = [
   '/programs/hero1.jpg',
@@ -74,9 +73,7 @@ export default function Programs() {
 
   return (
     <div className="bg-white">
-<Navbar />
-      <div className="pt-10">
-        </div>
+
 <section className="relative h-[70vh] mt-[80px] overflow-hidden">
   {/* Background Images */}
   {heroImages.map((img, i) => (
@@ -178,7 +175,7 @@ export default function Programs() {
         </div>
       </section>
 
-      <Footer />
+    
     </div>
   );
 }

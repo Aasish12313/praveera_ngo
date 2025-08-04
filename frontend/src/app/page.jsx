@@ -1,14 +1,12 @@
 'use client';
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const Page = () => {
   return (
     <div className="bg-[#fefdfc] text-[#1f1f1f]">
-      <Navbar />
 
       {/* WRAPPER TO OFFSET FIXED NAVBAR */}
       <div className="pt-24">
@@ -173,7 +171,6 @@ const Page = () => {
         
       </div>
 
-      <Footer />
     </div>
   );
 };

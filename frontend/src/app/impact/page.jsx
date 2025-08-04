@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 
 const stats = [
   { label: 'Children Educated', value: 12000 },
@@ -62,9 +61,7 @@ const ImpactPage = () => {
 
   return (
     <div className="bg-white text-gray-800">
-<Navbar />
-      <div className="pt-10">
-        </div>
+
       {/* Hero with Video Background */}
       <section className="relative h-[90vh] w-full overflow-hidden">
         <video
@@ -228,7 +225,7 @@ const ImpactPage = () => {
 </section>
 
 
-      <Footer />
+      
     </div>
   );
 };

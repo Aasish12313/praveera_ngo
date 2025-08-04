@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 
 export default function UserGalleryPage() {
   const [images, setImages] = useState([]);
@@ -59,9 +58,6 @@ export default function UserGalleryPage() {
         <link rel="canonical" href="https://praveerafoundation.org/gallery" />
       </Head>
 
-<Navbar />
-      <div className="pt-10">
-        </div>
       <main className="pt-24 pb-10 bg-white text-gray-800 min-h-screen">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-4 text-green-700 tracking-wide drop-shadow-md">
@@ -96,7 +92,7 @@ export default function UserGalleryPage() {
         </section>
       </main>
 
-      <Footer />
+    
 
       {/* Image Modal */}
       {isModalOpen && (

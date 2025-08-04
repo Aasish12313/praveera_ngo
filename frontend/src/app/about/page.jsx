@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import CountUp from 'react-countup';
@@ -12,9 +11,8 @@ import { FaLinkedinIn, FaTwitter, FaEnvelope } from 'react-icons/fa';
 const AboutPage = () => {
   return (
     <>
-      <Navbar />
-      <div className="pt-10">
-        </div>
+     
+      
 
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center bg-black text-white">
@@ -370,7 +368,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <Footer />
+      
           </>
   );
 };

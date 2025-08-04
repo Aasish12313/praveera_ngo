@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 import { motion } from 'framer-motion';
 import {
   FaFacebookF,
@@ -16,9 +15,7 @@ import {
 const Contact = () => {
   return (
     <div className="bg-gray-100 text-[#1f1f1f]">
-      <Navbar />
-      <div className="pt-10">
-        </div>
+      
 
       {/* HERO SECTION */}
       <section
@@ -162,7 +159,7 @@ const Contact = () => {
         ></iframe>
       </motion.div>
 
-      <Footer />
+      
     </div>
   );
 };
