@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Script from 'next/script';
 import Image from 'next/image';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { toast } from 'react-hot-toast';
@@ -132,8 +131,7 @@ const DonationPage = () => {
   return (
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <Navbar />
-      <div className="pt-10"></div>
+      
       <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-green-50 to-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           {/* Donation Form */}
@@ -229,26 +227,41 @@ const DonationPage = () => {
                 <div className="flex items-center gap-2"><FaHeart className="text-green-600" /> ₹2000 = 1 family kit</div>
               </div>
 
-              {/* Contact Us Button */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-right"
-              >
-                <a
-                  href="/contact"
-                  className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
-                >
-                  📞 Contact Us
-                </a>
-              </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.3, duration: 0.6 }}
+  className="text-right"
+>
+  <a
+    href="/contact"
+    className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
+  >
+    📞 Contact Us
+  </a>
+
+  {/* Embedded Video Section */}
+  <div className="mt-6">
+    <textarea name="Our " id=""></textarea>
+    <video
+      src="/vid.mp4" // make sure this video is in public/video/
+      autoPlay
+      loop
+      muted
+      playsInline
+      controls
+      className="w-full max-w-full mx-auto rounded-lg shadow-lg border border-green-600"
+      
+    />
+  </div>
+</motion.div>
+
             </div>
           </div>
         </div>
       </main>
 
-      <Footer />
+    
     </>
   );
 };

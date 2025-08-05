@@ -38,6 +38,7 @@
     "react-toastify": "^11.0.5",
     "react-use": "^17.6.0",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.10",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.6.1"
   },
