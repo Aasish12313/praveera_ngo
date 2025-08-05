@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -21,9 +22,12 @@ const Page = () => {
               <p className="text-lg text-gray-700 mb-8">
                 Praveera Foundation is committed to transforming communities through education, healthcare, and social empowerment.
               </p>
+              <Link href="/join">
+
               <button className="bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition">
                 Join Us
               </button>
+              </Link>
             </div>
             <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.4 }}>
               <Image
