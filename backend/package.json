@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts":  {
+  "scripts": {
     "dev": "nodemon index",
     "start": "node index"
   },
@@ -15,5 +15,10 @@
     "express": "^5.1.0",
     "mongose": "^0.0.2-security",
     "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.17.1"
   }
 }
