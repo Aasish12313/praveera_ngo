@@ -1,13 +1,22 @@
+require('dotenv').config({ path: '.env.local' });
+const mongoose = require('mongoose');
 
-    const mongoose = require('mongoose');
-    const url=  process.env.MONGODB_URL 
-    // asynchroneous function - returns Promise
-    mongoose.connect(url)
-        .then((result) => {
-            console.log('database connected');
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+const url = process.env.MONGODB_URL;
 
-    module.exports =  mongoose;
+if (!url) {
+    console.error('❌ MONGODB_URL is not defined. Check your .env.local file.');
+    process.exit(1);
+}
+
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => {
+    console.log('✅ Database connected');
+})
+.catch((err) => {
+    console.error('❌ Database connection error:', err);
+});
+
+module.exports = mongoose;
