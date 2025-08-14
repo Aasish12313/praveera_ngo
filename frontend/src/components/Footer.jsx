@@ -174,7 +174,7 @@ const Footer = () => {
         <div className="text-center mb-10">
           <div className="flex justify-center items-center gap-3">
             <Image src="/logo.png" alt="Logo" width={50} height={50} />
-            <h2 className="text-2xl font-bold">Praveera Welfare Foundation</h2>
+            <h2 className="text-2xl font-bold">Praveera Social Culture and Welfare Foundation</h2>
           </div>
           <p className="italic text-sm mt-2">
             "Empowering communities through social & cultural initiatives"
@@ -257,7 +257,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-300 mt-12 pt-6 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} Praveera Welfare Foundation. All rights reserved.
+          © {new Date().getFullYear()} Praveera Social Culture and Welfare Foundation . All rights reserved.
         </div>
       </div>
     </footer>
