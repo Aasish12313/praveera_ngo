@@ -37,6 +37,11 @@ app.get('/delete', (req, res) => {
 const contactRouter = require('./routers/contactRouter');
 app.use('/api/contact', contactRouter);
 
+const memberRouter = require('./routers/memberRouter'); // ✅ Added
+app.use('/members', memberRouter); // ✅ Added
+
+
+
 // ====== Start Server ======
 app.listen(port, () => {
   console.log(`✅ Server started on http://localhost:${port}`);
