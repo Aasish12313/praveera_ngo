@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const jobs = [
   'Intern',
@@ -20,6 +23,7 @@ export default function JoinUsPage() {
     message: '',
     resume: null,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleToggleForm = (index) => {
     setOpenFormIndex(openFormIndex === index ? null : index);
@@ -33,21 +37,44 @@ export default function JoinUsPage() {
     }));
   };
 
-  const handleSubmit = (e, role) => {
+  const handleSubmit = async (e, role) => {
     e.preventDefault();
-    console.log('Form Submitted:', {
-      role,
-      ...formData,
-    });
-    alert(`Application for ${role} submitted successfully!`);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      resume: null,
-    });
-    setOpenFormIndex(null);
+    setLoading(true);
+
+    try {
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('email', formData.email);
+      data.append('phone', formData.phone);
+      data.append('message', formData.message);
+      data.append('position', role);
+      if (formData.resume) {
+        data.append('resume', formData.resume);
+      }
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/applications/add`,
+        data,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+
+      if (res.status === 200) {
+        toast.success(`Application for ${role} submitted successfully!`);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          resume: null,
+        });
+        setOpenFormIndex(null);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to submit application. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const formVariants = {
@@ -58,6 +85,7 @@ export default function JoinUsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white pt-28 px-4 pb-12">
+      <ToastContainer />
       <motion.h1
         className="text-4xl md:text-5xl font-bold text-center text-pink-600 mb-12"
         initial={{ opacity: 0, y: -30 }}
@@ -177,11 +205,12 @@ export default function JoinUsPage() {
                   >
                     <motion.button
                       type="submit"
+                      disabled={loading}
                       whileHover={{ scale: 1.05, boxShadow: '0px 5px 15px rgba(219, 39, 119,0.4)' }}
                       whileTap={{ scale: 0.95 }}
-                      className="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all"
+                      className="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all disabled:opacity-60"
                     >
-                      Submit
+                      {loading ? 'Submitting...' : 'Submit'}
                     </motion.button>
                   </motion.div>
                 </motion.form>
@@ -193,5 +222,3 @@ export default function JoinUsPage() {
     </div>
   );
 }
-
-

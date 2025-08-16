@@ -40,6 +40,12 @@ app.use('/api/contact', contactRouter);
 const memberRouter = require('./routers/memberRouter'); // ✅ Added
 app.use('/members', memberRouter); // ✅ Added
 
+const applicationUploadRouter = require('./routers/applicationUploadRouter'); 
+app.use('/applications', applicationUploadRouter);
+
+const volunteerRouter = require('./routers/volunteerRouter');
+app.use('/volunteers', volunteerRouter);
+
 
 
 // ====== Start Server ======

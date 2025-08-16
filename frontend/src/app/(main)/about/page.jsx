@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import CountUp from 'react-countup';
 import { FaLinkedinIn, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import VolunteerFormModal from '../../../components/VolunteerFormModal';  // ✅ Importing your form modal
 
 const AboutPage = () => {
   const [members, setMembers] = useState([]);
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false); // ✅ State for modal
 
   useEffect(() => {
     // Fetch team members dynamically from backend API
@@ -19,6 +21,12 @@ const AboutPage = () => {
 
   return (
     <>
+      {/* Volunteer Form Modal */}
+      <VolunteerFormModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
+
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center bg-black text-white">
         <Image
@@ -51,12 +59,18 @@ const AboutPage = () => {
             transition={{ duration: 2 }}
             className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
           >
-            <a href="/donate" className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white font-semibold transition">
+            <a
+              href="/donate"
+              className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full text-white font-semibold transition"
+            >
               Donate Now
             </a>
-            <a href="/volunteer" className="bg-white hover:bg-gray-200 px-6 py-3 rounded-full text-blue-700 font-semibold transition">
+            <button
+              onClick={() => setIsVolunteerModalOpen(true)} // ✅ Opens form modal
+              className="bg-white hover:bg-gray-200 px-6 py-3 rounded-full text-blue-700 font-semibold transition"
+            >
               Join as Volunteer
-            </a>
+            </button>
           </motion.div>
         </div>
       </section>
@@ -301,12 +315,12 @@ const AboutPage = () => {
             >
               Donate Now
             </a>
-            <a
-              href="/volunteer"
+            <button
+              onClick={() => setIsVolunteerModalOpen(true)} // ✅ Opens form modal
               className="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition"
             >
               Become a Volunteer
-            </a>
+            </button>
           </motion.div>
         </div>
       </section>
