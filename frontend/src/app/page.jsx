@@ -1,13 +1,78 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Page = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState([]);
+  const [formData, setFormData] = useState({ name: '', email: '', comment: '' });
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/events/all"); 
+        const data = await res.json();
+        setEvents(data);
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEvents();
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/testimonial');
+      // Sort by latest and take 4
+      const latestFour = res.data
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 4);
+      setComments(latestFour);
+    } catch (err) {
+      console.error('Failed to fetch testimonials:', err);
+    }
+  };
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    toast.dismiss();
+    const toastOptions = { duration: 3000, position: "top-right" };
+
+    if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
+      toast.error("Name should not contain numbers or special characters.", { id: "name-error", ...toastOptions });
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      toast.error("Please enter a valid email address.", { id: "email-error", ...toastOptions });
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:5000/testimonial", formData);
+      setFormData({ name: "", email: "", comment: "" });
+      fetchTestimonials();
+      toast.success("Thank you for your feedback!", { id: "thank-you", ...toastOptions });
+    } catch (err) {
+      toast.error("Failed to submit comment.", { id: "submit-fail", ...toastOptions });
+      console.error("Submit failed:", err);
+    }
+  };
+
   return (
     <div className="bg-[#fefdfc] text-[#1f1f1f]">
+      <Toaster position="top-right" reverseOrder={false} />
 
       {/* WRAPPER TO OFFSET FIXED NAVBAR */}
       <div className="pt-24">
@@ -23,10 +88,9 @@ const Page = () => {
                 Praveera Foundation is committed to transforming communities through education, healthcare, and social empowerment.
               </p>
               <Link href="/join">
-
-              <button className="bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition">
-                Join Us
-              </button>
+                <button className="bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition">
+                  Join Us
+                </button>
               </Link>
             </div>
             <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.4 }}>
@@ -55,30 +119,12 @@ const Page = () => {
         <section className="py-16 px-6 md:px-20 bg-blue-50">
           <h2 className="text-3xl font-bold text-center text-blue-700 mb-12">Our Programs</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {[
-              ['Dream Shala', 'img2.png'],
-              ['Fellowship Program', 'img3.png'],
-              ['Red Relief', 'img4.png'],
-              ['Zinda Van', 'img5.png'],
-              ['Women Empowerment', 'img6.png'],
-              ['Youth Skilling', 'img7.png'],
-            ].map(([title, image], idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.03 }}
-                className="bg-white rounded-xl shadow-md transition p-4 flex flex-col justify-between"
-              >
-                <Image
-                  src={`/${image}`}
-                  alt={title}
-                  width={400}
-                  height={200}
-                  className="rounded-xl mb-4 object-cover h-[200px] w-full"
-                />
+            {[['Dream Shala', 'img2.png'],['Fellowship Program', 'img3.png'],['Red Relief', 'img4.png'],
+              ['Zinda Van', 'img5.png'],['Women Empowerment', 'img6.png'],['Youth Skilling', 'img7.png']].map(([title, image], idx) => (
+              <motion.div key={idx} whileHover={{ scale: 1.03 }} className="bg-white rounded-xl shadow-md transition p-4 flex flex-col justify-between">
+                <Image src={`/${image}`} alt={title} width={400} height={200} className="rounded-xl mb-4 object-cover h-[200px] w-full"/>
                 <h3 className="text-xl font-semibold text-pink-700">{title}</h3>
-                <p className="text-gray-600 mt-2 text-sm">
-                  Learn how we’re creating impact through {title.toLowerCase()}.
-                </p>
+                <p className="text-gray-600 mt-2 text-sm">Learn how we’re creating impact through {title.toLowerCase()}.</p>
               </motion.div>
             ))}
           </div>
@@ -88,12 +134,7 @@ const Page = () => {
         <section className="py-20 px-6 md:px-20 bg-white">
           <h2 className="text-3xl font-bold text-center text-green-800 mb-10">Our Impact</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-6xl mx-auto">
-            {[
-              ['10,000+', 'Children Educated'],
-              ['5,000+', 'Women Empowered'],
-              ['25+', 'Villages Reached'],
-              ['100+', 'Volunteers'],
-            ].map(([number, label], idx) => (
+            {[['10,000+', 'Children Educated'], ['5,000+', 'Women Empowered'], ['25+', 'Villages Reached'], ['100+', 'Volunteers']].map(([number, label], idx) => (
               <div key={idx} className="p-6 bg-green-100 rounded-xl shadow-sm hover:shadow-md transition">
                 <h3 className="text-3xl font-bold text-blue-800">{number}</h3>
                 <p className="mt-2 text-gray-700">{label}</p>
@@ -106,55 +147,80 @@ const Page = () => {
         <section className="py-20 bg-gradient-to-r from-pink-100 to-green-100 px-6 md:px-20">
           <h2 className="text-3xl font-bold text-center text-pink-800 mb-10">Get Involved</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              ['Volunteer', 'Give your time to support causes that matter.'],
-              ['Donate', 'Contribute funds and help us scale our mission.'],
-              ['Partner', 'Collaborate with us to reach more lives.'],
-            ].map(([title, desc], idx) => (
+            {[{ title: 'Volunteer', desc: 'Give your time to support causes that matter.', link: '/volunteer' },
+              { title: 'Donate', desc: 'Contribute funds and help us scale our mission.', link: '/donate' },
+              { title: 'Partner', desc: 'Explore our partners.', link: '/partners' }].map(({ title, desc, link }, idx) => (
               <div key={idx} className="bg-white p-6 rounded-xl shadow-md text-center">
                 <h3 className="text-xl font-semibold text-blue-700">{title}</h3>
                 <p className="text-gray-600 mt-2 text-sm">{desc}</p>
-                <button className="mt-4 text-pink-700 hover:underline">Learn More</button>
+                <Link href={link} className="mt-4 inline-block text-pink-700 hover:underline">Learn More</Link>
               </div>
             ))}
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
-        <section className="py-20 bg-white px-6 md:px-20">
+        {/* TESTIMONIALS SECTION */}
+        <section className="py-20 px-6 md:px-20 bg-white">
           <h2 className="text-3xl font-bold text-center text-green-700 mb-12">What People Say</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {[
-              ['Aarav Gupta', 'Volunteering here changed my life. The impact is real!'],
-              ['Meera Jain', 'Proud to be a donor. Transparency and trust matter.'],
-              ['Rahul Verma', 'I’ve seen real change in my village, thanks to Praveera.'],
-            ].map(([name, quote], idx) => (
-              <div key={idx} className="bg-blue-50 p-6 rounded-xl shadow-md">
-                <p className="italic text-gray-700">“{quote}”</p>
-                <p className="mt-4 font-semibold text-pink-700">– {name}</p>
-              </div>
-            ))}
+          <div className="flex flex-col md:flex-row gap-8 max-w-7xl mx-auto">
+            {/* LEFT: TESTIMONIAL CARDS */}
+            <div className="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {comments.map((item, index) => (
+                <motion.div
+                  key={item._id}
+                  className="bg-blue-50 p-6 rounded-xl shadow-md"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                >
+                  <p className="text-gray-700 text-base leading-relaxed mb-3">“{item.comment}”</p>
+                  <p className="mt-4 font-semibold text-pink-700">– {item.name}</p>
+                </motion.div>
+              ))}
+            </div>
+            {/* RIGHT: FORM */}
+            <div className="md:w-1/3 bg-white p-6 rounded-xl shadow-md">
+              <h3 className="text-xl font-semibold mb-4">Add Your Comment</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required
+                  className="w-full border px-4 py-2 rounded-md text-black" />
+                <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required
+                  className="w-full border px-4 py-2 rounded-md text-black" />
+                <textarea name="comment" placeholder="Your Comment" value={formData.comment} onChange={handleChange} required rows="4"
+                  className="w-full border px-4 py-2 rounded-md text-black" />
+                <motion.button type="submit" whileHover={{ scale: 1.05 }}
+                  className="bg-pink-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
+                  Submit
+                </motion.button>
+              </form>
+            </div>
           </div>
         </section>
 
         {/* EVENTS SECTION */}
         <section className="py-20 bg-gray-50 px-6 md:px-20">
           <h2 className="text-3xl font-bold text-center text-blue-800 mb-12">Upcoming Events</h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-            {[
-              ['Community Health Camp', 'Join us for a free health check-up on March 15, 2023.'],
-              ['Annual Fundraiser Gala', 'Help us raise funds for our programs on April 20, 2023.'],
-            ].map(([event, details], idx) => (
-              <div key={idx} className="bg-white p-6 rounded-xl shadow-md">
-                <h3 className="text-xl font-semibold text-pink-700">{event}</h3>
-                <p className="text-gray-600 mt-2">{details}</p>
-                <button className="mt-4 text-blue-700 hover:underline">RSVP</button>
-              </div>
-            ))}
-          </div>
+
+          {loading ? (
+            <p className="text-center text-gray-600">Loading events...</p>
+          ) : events.length === 0 ? (
+            <p className="text-center text-gray-500">No upcoming events right now.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+              {events.map((event) => (
+                <div key={event._id} className="bg-white p-6 rounded-xl shadow-md">
+                  <h3 className="text-xl font-semibold text-pink-700">{event.name}</h3>
+                  <p className="text-gray-600 mt-2">📍 {event.location}</p>
+                  <p className="text-gray-600">📅 {new Date(event.date).toLocaleDateString()}</p>
+                  <p className="text-gray-600">🎯 Target: ₹{event.targetAmount}</p>
+                  <button className="mt-4 text-blue-700 hover:underline">RSVP</button>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
-        {/* FINAL CTA - REDESIGNED */}
+        {/* FINAL CTA */}
         <section className="relative py-20 bg-gradient-to-br from-green-100 via-white to-pink-100 text-center">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-4xl md:text-5xl font-bold text-pink-800 mb-4">
@@ -172,9 +238,8 @@ const Page = () => {
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
         </section>
-        
-      </div>
 
+      </div>
     </div>
   );
 };

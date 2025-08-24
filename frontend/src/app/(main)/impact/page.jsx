@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
-
+import axios from 'axios';
 
 const stats = [
   { label: 'Children Educated', value: 12000 },
@@ -13,56 +13,41 @@ const stats = [
   { label: 'Villages Reached', value: 340 },
 ];
 
-const stories = [
-  {
-    name: 'Priya from Bihar',
-    image: '/img1.jpg',
-    story: 'Before our education drive, Priya had never seen a classroom. Now she is in college.',
-  },
-  {
-    name: 'Rahul from Rajasthan',
-    image: '/img2.png',
-    story: 'Our nutrition program helped Rahul overcome malnutrition and pursue education.',
-  },
-  {
-    name: 'Meena from Jharkhand',
-    image: '/img3.png',
-    story: 'With our skill training, Meena launched a tailoring business supporting her family.',
-  },
-];
-
-const impacts = [
-  {
-    title: 'Empowering Women Through Skills',
-    description: 'Thousands of women trained with practical life skills and entrepreneurship programs.',
-    image: '/programs/hero1.jpg',
-  },
-  {
-    title: 'Building Sustainable Education',
-    description: 'From mobile classrooms to e-learning in tribal zones, education is now inclusive.',
-    image: '/programs/hero2.jpg',
-  },
-  {
-    title: 'Community Healthcare Access',
-    description: 'We launched mobile clinics and awareness camps to reach remote villages.',
-    image: '/programs/hero3.jpg',
-  },
-];
-
 const ImpactPage = () => {
   const [currentStory, setCurrentStory] = useState(0);
+  const [cards, setCards] = useState([]);
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch data from backend
+  useEffect(() => {
+    const fetchImpactData = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/impact'); // backend endpoint
+        setCards(res.data.cards);
+        setStories(res.data.stories);
+      } catch (err) {
+        console.error('Failed to fetch impact data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImpactData();
+  }, []);
+
+  // Story carousel
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentStory((prev) => (prev + 1) % stories.length);
+      setCurrentStory((prev) => (stories.length > 0 ? (prev + 1) % stories.length : 0));
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [stories]);
 
   return (
     <div className="bg-white text-gray-800">
 
-      {/* Hero with Video Background */}
+      {/* Hero Section */}
       <section className="relative h-[90vh] w-full overflow-hidden">
         <video
           autoPlay
@@ -120,7 +105,7 @@ const ImpactPage = () => {
         </div>
       </section>
 
-      {/* Impact on Society - Card Layout */}
+      {/* Impact Cards */}
       <section className="py-20 px-6 md:px-20 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.h2
@@ -132,36 +117,38 @@ const ImpactPage = () => {
           >
             How We’re Changing Society
           </motion.h2>
-          <div className="grid md:grid-cols-3 gap-10">
-            {impacts.map((impact, i) => (
-              <motion.div
-                key={i}
-                className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300"
-                whileHover={{ scale: 1.02 }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: i * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="relative h-56 w-full">
-                  <Image
-                    src={impact.image}
-                    alt={impact.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-pink-600 mb-2">{impact.title}</h3>
-                  <p className="text-gray-700 text-sm">{impact.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+
+          {loading ? (
+            <p className="text-center text-gray-600">Loading impact cards...</p>
+          ) : cards.length === 0 ? (
+            <p className="text-center text-gray-500">No impact cards available.</p>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-10">
+              {cards.map((impact, i) => (
+                <motion.div
+                  key={impact._id}
+                  className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300"
+                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: i * 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="relative h-56 w-full">
+                    <Image src={impact.imageUrl} alt={impact.title} fill className="object-cover" />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-pink-600 mb-2">{impact.title}</h3>
+                    <p className="text-gray-700 text-sm">{impact.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Beneficiary Stories */}
+      {/* Stories Section */}
       <section className="bg-gray-50 py-20 px-6 md:px-20">
         <div className="max-w-5xl mx-auto text-center">
           <motion.h2
@@ -174,58 +161,61 @@ const ImpactPage = () => {
             Faces Behind the Change
           </motion.h2>
 
-          <motion.div
-            key={currentStory}
-            className="bg-white p-8 rounded-2xl shadow-xl mx-auto max-w-3xl transition-all duration-500"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="relative h-56 w-full rounded-xl overflow-hidden mb-6">
-              <Image
-                src={stories[currentStory].image}
-                alt={stories[currentStory].name}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h4 className="text-xl font-bold mb-2 text-blue-600">{stories[currentStory].name}</h4>
-            <p className="text-gray-600">{stories[currentStory].story}</p>
-          </motion.div>
+          {loading ? (
+            <p className="text-gray-600">Loading stories...</p>
+          ) : stories.length === 0 ? (
+            <p className="text-gray-500">No stories available.</p>
+          ) : (
+            <motion.div
+              key={currentStory}
+              className="bg-white p-8 rounded-2xl shadow-xl mx-auto max-w-3xl transition-all duration-500"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <div className="relative h-56 w-full rounded-xl overflow-hidden mb-6">
+                <Image
+                  src={stories[currentStory].imageUrl}
+                  alt={stories[currentStory].name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-blue-600">{stories[currentStory].name}</h4>
+              <p className="text-gray-600">{stories[currentStory].story}</p>
+            </motion.div>
+          )}
         </div>
       </section>
 
-{/* CTA Section */}
-<section className="bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 text-blue-900 py-20 px-6 md:px-20 text-center">
-  <motion.h2
-    className="text-3xl md:text-4xl font-bold mb-6"
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    transition={{ duration: 0.7 }}
-    viewport={{ once: true }}
-  >
-    Be the Reason Someone Smiles Today
-  </motion.h2>
-  <motion.p
-    className="text-lg mb-8 max-w-xl mx-auto"
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    transition={{ duration: 0.9 }}
-    viewport={{ once: true }}
-  >
-    Support our mission with your time, resources, or voice. Join us in creating real, measurable change.
-  </motion.p>
-  <motion.a
-    href="/donate"
-    whileHover={{ scale: 1.05 }}
-    className="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-xl transition duration-300"
-  >
-    Donate Now
-  </motion.a>
-</section>
-
-
-      
+      {/* CTA */}
+      <section className="bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 text-blue-900 py-20 px-6 md:px-20 text-center">
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold mb-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+          Be the Reason Someone Smiles Today
+        </motion.h2>
+        <motion.p
+          className="text-lg mb-8 max-w-xl mx-auto"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.9 }}
+          viewport={{ once: true }}
+        >
+          Support our mission with your time, resources, or voice. Join us in creating real, measurable change.
+        </motion.p>
+        <motion.a
+          href="/donate"
+          whileHover={{ scale: 1.05 }}
+          className="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-xl transition duration-300"
+        >
+          Donate Now
+        </motion.a>
+      </section>
     </div>
   );
 };
