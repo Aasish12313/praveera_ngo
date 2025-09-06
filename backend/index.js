@@ -9,14 +9,14 @@ require('./connection');
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3001'],
   credentials: true,
   optionsSuccessStatus: 200
 }));
 
 app.use(express.json());
 
-// ====== Existing Routes ======
+
 app.get('/', (req, res) => {
   res.send('response from express');
 });
@@ -33,12 +33,12 @@ app.get('/delete', (req, res) => {
   res.send('response from delete');
 });
 
-// ====== Contact API Routes ======
-const contactRouter = require('./routers/contactRouter');
-app.use('/api/contact', contactRouter);
 
-const memberRouter = require('./routers/memberRouter'); // ✅ Added
-app.use('/members', memberRouter); // ✅ Added
+const contactRouter = require('./routers/contactRouter');
+app.use('/contacts', contactRouter);
+
+const memberRouter = require('./routers/memberRouter'); 
+app.use('/members', memberRouter);
 
 const applicationUploadRouter = require('./routers/applicationUploadRouter'); 
 app.use('/applications', applicationUploadRouter);

@@ -1,40 +1,48 @@
+
 const express = require('express');
-const router = express.Router();
 const Contact = require('../models/contactModel');
 
-// Create contact message
-router.post('/', async (req, res) => {
-  try {
-    const { name, email, subject, message } = req.body;
-    if (!name || !email || !subject || !message) {
-      return res.status(400).json({ message: 'All fields are required' });
+const router = express.Router();
+
+router.post('/submit', async (req, res) => {
+    try {
+        const { name, email, message , phone } = req.body;
+
+        if (!name || !email || !message || !phone) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        const newContact = new Contact({ name, email, message, phone });
+        await newContact.save();
+
+        res.status(200).json({ message: 'Message submitted successfully.' });
+    } catch (error) {
+        console.error('Contact submission error:', error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-    const newMessage = new Contact({ name, email, subject, message });
-    await newMessage.save();
-    res.status(201).json({ message: 'Message saved successfully' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
 });
 
-// Get all messages (Admin)
-router.get('/', async (req, res) => {
-  try {
-    const messages = await Contact.find().sort({ createdAt: -1 });
-    res.json(messages);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+
+router.get('/getall', async (req, res) => {
+    try {
+        const contacts = await Contact.find().sort({ createdAt: -1 });
+        res.status(200).json(contacts);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to retrieve messages', error: err });
+    }
 });
 
-// Delete message
-router.delete('/:id', async (req, res) => {
-  try {
-    await Contact.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const deleted = await Contact.findByIdAndDelete(req.params.id);
+        if (!deleted) {
+            return res.status(404).json({ message: 'Message not found' });
+        }
+        res.status(200).json({ message: 'Message deleted successfully', data: deleted });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to delete message', error: err });
+    }
 });
 
 module.exports = router;
