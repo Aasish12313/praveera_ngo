@@ -16,7 +16,7 @@ const confirmToast = (message, onConfirm) => {
               onConfirm();
               toast.dismiss(toastId);
             }}
-            className="px-3 py-1 bg-pink-600 text-white rounded hover:bg-pink-700"
+            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
           >
             Yes
           </button>
@@ -77,7 +77,7 @@ const AdminVolunteerApplications = () => {
     <>
       <ToastContainer />
       <div className="min-h-screen bg-slate-100 p-6 sm:p-10">
-        <h1 className="text-4xl font-bold text-center text-pink-600 mb-8">
+        <h1 className="text-4xl font-bold text-center text-black mb-8">
           Volunteer Applications
         </h1>
 
@@ -122,7 +122,7 @@ const AdminVolunteerApplications = () => {
                     <td className="px-5 py-3">
                       <button
                         onClick={() => deleteVolunteer(v._id)}
-                        className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-md text-sm transition"
+                        className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-sm transition"
                       >
                         <Trash2 className="w-4 h-4" /> Delete
                       </button>
@@ -130,7 +130,7 @@ const AdminVolunteerApplications = () => {
                     <td className="px-5 py-3">
                       <a
                         href={`mailto:${v.email}`}
-                        className="flex items-center justify-center gap-1 border border-pink-600 rounded-md px-4 py-1.5 text-pink-600 text-sm transition duration-200 hover:bg-pink-600 hover:text-white"
+                        className="flex items-center justify-center gap-1 border border-black rounded-md px-4 py-1.5 text-black text-sm transition duration-200 hover:bg-black hover:text-white"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

@@ -63,14 +63,14 @@ export default function MembersAdminPage() {
 
   const handleEdit = (member) => {
     setEditingId(member._id);
-    setForm({ name: member.name, position: member.position, photo: null });
-    setPreview(member.photo);
+    setForm({ name: member.name, position: member.position, photo: null }); // keep photo null unless new file chosen
+    setPreview(member.photo); // show current image
   };
 
   return (
     <div className="p-6">
       {/* Title */}
-      <h1 className={`text-2xl font-bold mb-6 ${editingId ? "text-yellow-500" : "text-pink-500"}`}>
+      <h1 className="text-2xl font-bold mb-6 text-orange-500">
         {editingId ? "Edit Member" : "Add Member"}
       </h1>
 
@@ -133,7 +133,7 @@ export default function MembersAdminPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            className={`px-4 py-2 rounded text-white ${editingId ? "bg-yellow-500 hover:bg-yellow-600" : "bg-pink-500 hover:bg-pink-600"}`}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded"
           >
             {editingId ? "Update" : "Add"}
           </button>
@@ -150,10 +150,13 @@ export default function MembersAdminPage() {
       </form>
 
       {/* Members List */}
-      <h2 className="text-lg font-semibold mb-4 text-pink-500">All Members</h2>
+      <h2 className="text-lg font-semibold mb-4 text-orange-500">All Members</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {members.map((m) => (
-          <div key={m._id} className="border p-4 rounded text-center shadow-sm">
+          <div
+            key={m._id}
+            className="border p-4 rounded text-center shadow-sm"
+          >
             <img
               src={m.photo}
               alt={m.name}

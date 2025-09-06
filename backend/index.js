@@ -47,6 +47,27 @@ const volunteerRouter = require('./routers/volunteerRouter');
 app.use('/volunteers', volunteerRouter);
 
 
+const infoRouter = require('./routers/infoRouter');
+app.use('/api/info', infoRouter);
+
+
+const eventRouter = require('./routers/eventRouter');
+app.use('/events', eventRouter);
+
+const galleryRouter = require('./routers/galleryRouter');
+app.use('/gallery', galleryRouter);
+
+const testimonialRouter = require('./routers/testimonialRouter');
+app.use('/testimonial', testimonialRouter);
+
+const impactRouter = require('./routers/impactRouter'); // <- new
+app.use('/impact', impactRouter); // <- impact endpoint
+
+const partnerRouter = require('./routers/partnerRouter'); // Add this line
+app.use('/api/partners', partnerRouter); // Add this below other `app.use(...)` lines
+
+
+
 
 // ====== Start Server ======
 app.listen(port, () => {

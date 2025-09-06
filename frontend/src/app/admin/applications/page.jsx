@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Trash2, Eye } from 'lucide-react';
+import { Trash2, Eye, Download } from 'lucide-react';
 
 const confirmToast = (message, onConfirm) => {
   const toastId = toast(
@@ -17,7 +17,7 @@ const confirmToast = (message, onConfirm) => {
               onConfirm();
               toast.dismiss(toastId);
             }}
-            className="px-3 py-1 bg-pink-600 text-white rounded hover:bg-pink-700"
+            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
           >
             Yes
           </button>
@@ -101,13 +101,13 @@ const AdminApplications = () => {
     <>
       <ToastContainer />
       <div className="min-h-screen bg-slate-100 p-6 sm:p-10">
-        <h1 className="text-4xl font-bold text-center text-pink-600 mb-8">Job Applications</h1>
+        <h1 className="text-4xl font-bold text-center text-black mb-8">Job Applications</h1>
 
         <div className="flex justify-center mb-6">
           <select
             value={selectedPosition}
             onChange={(e) => filterByPosition(e.target.value)}
-            className="text-black border border-slate-300 rounded-md px-5 py-2 bg-white shadow-sm hover:border-pink-500 focus:border-pink-600 transition"
+            className="text-black border border-slate-300 rounded-md px-5 py-2 bg-white shadow-sm hover:border-slate-400 transition"
           >
             {positions.map((position) => (
               <option key={position} value={position}>
@@ -124,7 +124,7 @@ const AdminApplications = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white shadow-md rounded-md overflow-hidden">
-              <thead className="bg-pink-100 text-black text-sm">
+              <thead className="bg-slate-200 text-black text-sm">
                 <tr>
                   <th className="px-5 py-3 text-left">Name</th>
                   <th className="px-5 py-3 text-left">Email</th>
@@ -138,7 +138,7 @@ const AdminApplications = () => {
               </thead>
               <tbody>
                 {filtered.map((app) => (
-                  <tr key={app._id} className="border-b hover:bg-pink-50 transition">
+                  <tr key={app._id} className="border-b hover:bg-slate-100 transition">
                     <td className="px-5 py-3 text-black">{app.name}</td>
                     <td className="px-5 py-3 text-black">{app.email}</td>
                     <td className="px-5 py-3 text-black">{app.phone}</td>
@@ -153,10 +153,11 @@ const AdminApplications = () => {
                             href={app.resumeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-pink-600 hover:underline"
+                            className="flex items-center gap-1 text-blue-600 hover:underline"
                           >
                             <Eye className="w-4 h-4" /> View
                           </a>
+                         
                         </div>
                       ) : (
                         <span className="text-gray-400 italic">Not uploaded</span>
@@ -165,7 +166,7 @@ const AdminApplications = () => {
                     <td className="px-5 py-3">
                       <button
                         onClick={() => deleteApplication(app._id)}
-                        className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-md text-sm transition"
+                        className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-sm transition"
                       >
                         <Trash2 className="w-4 h-4" /> Delete
                       </button>
@@ -173,7 +174,7 @@ const AdminApplications = () => {
                     <td className="px-5 py-3">
                       <a
                         href={`mailto:${app.email}`}
-                        className="flex items-center justify-center gap-1 border border-pink-600 rounded-md px-4 py-1.5 text-pink-600 text-sm transition duration-200 hover:bg-pink-600 hover:text-white"
+                        className="flex items-center justify-center gap-1 border border-black rounded-md px-4 py-1.5 text-black text-sm transition duration-200 hover:bg-black hover:text-white"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
