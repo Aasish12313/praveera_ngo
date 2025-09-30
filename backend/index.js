@@ -4,18 +4,19 @@ require('dotenv').config();
 
 const app = express();
 const port = 5000;
+const paymentRouter = require('./routers/paymentRouter');
 
 require('./connection');
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3001'],
+  origin: ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
 }));
 
 app.use(express.json());
-
+app.use('/payment', paymentRouter);
 
 app.get('/', (req, res) => {
   res.send('response from express');

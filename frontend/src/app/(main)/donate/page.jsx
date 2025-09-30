@@ -1,32 +1,33 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import Script from 'next/script';
 import Image from 'next/image';
-
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { toast } from 'react-hot-toast';
 import { FaHeart, FaBook, FaStethoscope, FaUtensils } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import * as Yup from 'yup';
 
 const testimonials = [
-  {
-    name: 'Aarti Sharma',
-    title: 'Beneficiary',
-    feedback: 'Thanks to your donations, my children can now go to school without worrying about food or supplies.',
-  },
-  {
-    name: 'Vikram Joshi',
-    title: 'Volunteer',
-    feedback: 'Volunteering here has changed my life. Every donation truly makes an impact.',
-  },
-  {
-    name: 'Sneha Patel',
-    title: 'Donor',
-    feedback: 'I trust this organization to use my contributions wisely and transparently.',
-  },
+  { name: 'Aarti Sharma', title: 'Beneficiary', feedback: 'Thanks to your donations, my children can now go to school without worrying about food or supplies.' },
+  { name: 'Vikram Joshi', title: 'Volunteer', feedback: 'Volunteering here has changed my life. Every donation truly makes an impact.' },
+  { name: 'Sneha Patel', title: 'Donor', feedback: 'I trust this organization to use my contributions wisely and transparently.' },
 ];
+
+
+const donationValidationSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  phone: Yup.string().required('Phone is required').matches(/^[6-9]\d{9}$/, 'Invalid Indian phone number'),
+  amount: Yup.number().required('Amount is required').positive('Amount must be positive').min(1, 'Minimum donation is ₹1'),
+  purpose: Yup.string().required('Purpose is required'),
+  address: Yup.string().required('Address is required').min(5, 'Address must be at least 5 characters'),
+  panNumber: Yup.string().matches(/^[A-Z]{5}[0-9]{4}[A-Z]$/, 'Invalid PAN format').length(10, 'PAN must be 10 characters'),
+});
 
 const DonationPage = () => {
   const [form, setForm] = useState({
@@ -34,8 +35,8 @@ const DonationPage = () => {
     email: '',
     phone: '',
     address: '',
-    pan: '',
-    cause: '',
+    panNumber: '',
+    purpose: '',
     amount: '',
   });
 
@@ -50,40 +51,83 @@ const DonationPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleInput = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleInput = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const payNow = () => {
-    const { name, email, phone, amount } = form;
-    if (!name || !email || !phone || !amount) {
-      return toast.error('Please fill in all required fields');
+  const payNow = async () => {
+    try {
+    
+      await donationValidationSchema.validate(form, { abortEarly: false });
+    } catch (validationErrors) {
+      validationErrors.inner.forEach((err) => toast.error(err.message));
+      return;
     }
 
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-      amount: parseInt(amount) * 100,
-      currency: 'INR',
-      name: 'Praveera Foundation',
-      description: 'Donation Payment',
-      handler: () => setShowThankYou(true),
-      prefill: {
-        name,
-        email,
-        contact: phone,
-      },
-      notes: {
-        address: form.address,
-        pan: form.pan,
-        cause: form.cause,
-      },
-      theme: {
-        color: '#2F855A',
-      },
-    };
+    try {
+    
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-order`,
+        { amount: form.amount }
+      );
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+      console.log('👉 Order created:', data);
+
+      if (!data?.order?.id) {
+        return toast.error('Unable to create Razorpay order');
+      }
+
+      if (typeof window === 'undefined' || !window.Razorpay) {
+        return toast.error('Razorpay SDK not loaded. Refresh page.');
+      }
+
+   
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.order.amount,
+        currency: 'INR',
+        name: 'Praveera Foundation',
+        description: form.cause || 'Donation Payment',
+        order_id: data.order.id,
+        prefill: {
+          name: form.name,
+          email: form.email,
+          contact: form.phone,
+        },
+        notes: {
+          address: form.address,
+          panNumber: form.panNumber,
+          purpose: form.purpose,
+        },
+        handler: async function (response) {
+          console.log('👉 Razorpay Handler Response:', response);
+          console.log('👉 Form Data:', form);
+
+          try {
+            const verifyRes = await axios.post(
+              `${process.env.NEXT_PUBLIC_API_URL}/payment/verify`,
+              { ...response, ...form }
+            );
+            console.log('👉 Verification API Response:', verifyRes.data);
+
+            if (verifyRes.data.success) {
+              toast.success('Payment successful!');
+              setShowThankYou(true);
+            } else {
+              toast.error('Payment verification failed.');
+            }
+          } catch (err) {
+            console.error('❌ Verification error (Frontend):', err);
+            toast.error('Payment verification failed.');
+          }
+        },
+        theme: { color: '#2F855A' },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error('❌ Payment error:', err.response?.data || err.message);
+      toast.error('Something went wrong. Please try again.');
+    }
   };
 
   if (showThankYou) {
@@ -91,35 +135,17 @@ const DonationPage = () => {
       <div className="min-h-screen flex flex-col justify-center items-center bg-white px-4 text-center">
         <Confetti width={width} height={height} numberOfPieces={250} recycle={false} />
         <Image src="/logo.png" alt="Logo" width={80} height={80} />
-        <motion.h1
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl font-bold text-green-700 mt-4"
-        >
+        <motion.h1 initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.6 }} className="text-4xl font-bold text-green-700 mt-4">
           🎉 Congratulations!
         </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="text-gray-600 mt-3 max-w-md"
-        >
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.6 }} className="text-gray-600 mt-3 max-w-md">
           Your kind donation has been successfully received. Together, we make the world better!
         </motion.p>
         <button
           className="mt-6 px-6 py-2 bg-green-700 text-white rounded hover:bg-green-800"
           onClick={() => {
             setShowThankYou(false);
-            setForm({
-              name: '',
-              email: '',
-              phone: '',
-              address: '',
-              pan: '',
-              cause: '',
-              amount: '',
-            });
+            setForm({ name: '', email: '', phone: '', address: '', pan: '', cause: '', amount: '' });
           }}
         >
           Make Another Donation
@@ -130,18 +156,13 @@ const DonationPage = () => {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
+
+      {/* 🔽 Existing UI preserved */}
       <main className="min-h-screen pt-24 pb-16 bg-gradient-to-br from-green-50 to-white px-4">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           {/* Donation Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-white p-8 rounded-lg shadow-xl"
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="bg-white p-8 rounded-lg shadow-xl">
             <div className="flex justify-center mb-4">
               <Image src="/logo.png" alt="NGO Logo" width={80} height={80} />
             </div>
@@ -153,8 +174,8 @@ const DonationPage = () => {
               <input className="border border-black px-4 py-2 rounded placeholder-black text-black" placeholder="Email" name="email" value={form.email} onChange={handleInput} />
               <input className="border border-black px-4 py-2 rounded placeholder-black text-black" placeholder="Phone" name="phone" value={form.phone} onChange={handleInput} />
               <input className="border border-black px-4 py-2 rounded placeholder-black text-black" placeholder="Address" name="address" value={form.address} onChange={handleInput} />
-              <input className="border border-black px-4 py-2 rounded placeholder-black text-black" placeholder="PAN Number" name="pan" value={form.pan} onChange={handleInput} />
-              <select className="border border-black px-4 py-2 rounded text-black" name="cause" value={form.cause} onChange={handleInput}>
+              <input className="border border-black px-4 py-2 rounded placeholder-black text-black" placeholder="PAN Number" name="panNumber" value={form.panNumber} onChange={handleInput} />
+              <select className="border border-black px-4 py-2 rounded text-black" name="purpose" value={form.cause} onChange={handleInput}>
                 <option value="">Select Cause</option>
                 <option value="Education">Education</option>
                 <option value="Healthcare">Healthcare</option>
@@ -178,14 +199,7 @@ const DonationPage = () => {
               </div>
 
               <div className="mt-4">
-                <input
-                  type="number"
-                  placeholder="Enter Amount"
-                  name="amount"
-                  value={form.amount}
-                  onChange={handleInput}
-                  className="w-full mt-2 border border-black px-4 py-2 rounded shadow placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
+                <input type="number" placeholder="Enter Amount" name="amount" value={form.amount} onChange={handleInput} className="w-full mt-2 border border-black px-4 py-2 rounded shadow placeholder-black text-black focus:outline-none focus:ring-2 focus:ring-green-500" />
               </div>
 
               <button className="bg-green-700 text-white py-2 rounded mt-4 hover:bg-green-800" onClick={payNow}>
@@ -197,22 +211,12 @@ const DonationPage = () => {
 
           {/* Info Section */}
           <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
               <h2 className="text-4xl font-bold text-green-900 mb-2">“Every rupee lights up a life.”</h2>
               <p className="text-gray-700 text-lg">Support underprivileged communities with love, health, and education.</p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-green-100 p-4 rounded shadow"
-            >
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-green-100 p-4 rounded shadow">
               <p className="italic text-gray-700">"{testimonials[testimonialIndex].feedback}"</p>
               <p className="mt-2 text-green-900 font-semibold">{testimonials[testimonialIndex].name}</p>
               <p className="text-sm text-gray-600">{testimonials[testimonialIndex].title}</p>
@@ -227,41 +231,21 @@ const DonationPage = () => {
                 <div className="flex items-center gap-2"><FaHeart className="text-green-600" /> ₹2000 = 1 family kit</div>
               </div>
 
-              <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.3, duration: 0.6 }}
-  className="text-right"
->
-  <a
-    href="/contact"
-    className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300"
-  >
-    📞 Contact Us
-  </a>
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }} className="text-right">
+                <a href="/contact" className="inline-block mt-6 px-5 py-3 bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300">
+                  📞 Contact Us
+                </a>
 
-  {/* Embedded Video Section */}
-  <div className="mt-6">
-    <textarea name="Our " id=""></textarea>
-    <video
-      src="/vid.mp4" // make sure this video is in public/video/
-      autoPlay
-      loop
-      muted
-      playsInline
-      controls
-      className="w-full max-w-full mx-auto rounded-lg shadow-lg border border-green-600"
-      
-    />
-  </div>
-</motion.div>
-
+                {/* Embedded Video Section */}
+                <div className="mt-6">
+                  <textarea name="Our " id=""></textarea>
+                  <video src="/vid.mp4" autoPlay loop muted playsInline controls className="w-full max-w-full mx-auto rounded-lg shadow-lg border border-green-600" />
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </main>
-
-    
     </>
   );
 };
