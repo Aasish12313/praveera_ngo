@@ -37,14 +37,28 @@ router.get('/', async (req, res) => {
 });
 
 // ===== ADD =====
+// router.post('/add', upload.single('logo'), async (req, res) => {
+//   try {
+//     const { name, url, type } = req.body;
+//     const logoUrl = req.file ? req.file.location : '';
+//     const newItem = new Partner({ name, url, type, logoUrl });
+//     await newItem.save();
+//     res.status(201).json(newItem);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 router.post('/add', upload.single('logo'), async (req, res) => {
   try {
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
     const { name, url, type } = req.body;
     const logoUrl = req.file ? req.file.location : '';
     const newItem = new Partner({ name, url, type, logoUrl });
     await newItem.save();
     res.status(201).json(newItem);
   } catch (err) {
+    console.error("Error in /api/partners/add:", err); // add this
     res.status(500).json({ message: err.message });
   }
 });
