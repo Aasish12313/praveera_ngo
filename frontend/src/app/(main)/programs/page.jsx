@@ -1,18 +1,208 @@
+// 'use client';
+
+// import React, { useEffect, useState } from 'react';
+// import Image from 'next/image';
+// import { motion } from 'framer-motion';
+// import Link from 'next/link'; // Make sure this import is at the top
+
+
+
+// const heroImages = [
+//   '/programs/hero1.jpg',
+//   '/programs/hero2.jpg',
+//   '/programs/hero3.jpg',
+// ];
+
+// const programs = [
+//   {
+//     title: 'Child Education Drive',
+//     image: '/programs/img5.png',
+//     description:
+//       'Building community schools and providing free educational materials in rural areas.',
+//   },
+//   {
+//     title: 'Rural Health Missions',
+//     image: '/programs/img6.png',
+//     description:
+//       'Deploying mobile clinics to ensure healthcare reaches remote corners.',
+//   },
+//   {
+//     title: 'Green Future Project',
+//     image: '/programs/img7.png',
+//     description: 'Tree plantation drives and clean energy workshops.',
+//   },
+//   {
+//     title: 'Child Education Drive',
+//     image: '/programs/img5.png',
+//     description:
+//       'Building community schools and providing free educational materials in rural areas.',
+//   },
+//   {
+//     title: 'Rural Health Missions',
+//     image: '/programs/img6.png',
+//     description:
+//       'Deploying mobile clinics to ensure healthcare reaches remote corners.',
+//   },
+//   {
+//     title: 'Green Future Project',
+//     image: '/programs/img7.png',
+//     description: 'Tree plantation drives and clean energy workshops.',
+//   },
+// ];
+
+// const partners = [
+//   '/partners/p1.png',
+//   '/partners/p2.png',
+//   '/partners/p3.png',
+//   '/partners/p4.png',
+//   '/partners/p5.png',
+//   '/partners/p1.png',
+//   '/partners/p2.png',
+//   '/partners/p3.png',
+//   '/partners/p4.png',
+//   '/partners/p5.png',
+// ];
+
+// export default function Programs() {
+//   const [current, setCurrent] = useState(0);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrent((prev) => (prev + 1) % heroImages.length);
+//     }, 4000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <div className="bg-white">
+
+// <section className="relative h-[70vh] mt-[80px] overflow-hidden">
+//   {/* Background Images */}
+//   {heroImages.map((img, i) => (
+//     <motion.div
+//       key={i}
+//       initial={{ opacity: 0 }}
+//       animate={{ opacity: current === i ? 1 : 0 }}
+//       transition={{ duration: 1 }}
+//       className="absolute inset-0 w-full h-full"
+//     >
+//       <Image
+//         src={img}
+//         alt={`Hero ${i}`}
+//         fill
+//         className="object-cover"
+//         priority={i === 0}
+//       />
+//     </motion.div>
+//   ))}
+
+//   {/* Overlay to darken background */}
+//   <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-center px-4">
+//     <motion.div
+//       initial={{ opacity: 0, y: 30 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       transition={{ duration: 1 }}
+//     >
+//       <h1 className="text-3xl md:text-5xl font-bold mb-2">Our Programs</h1>
+//       <p className="text-base md:text-xl max-w-xl mx-auto">
+//         Empowering change through education, health, and sustainability.
+//       </p>
+//     </motion.div>
+//   </div>
+// </section>
+
+
+
+
+
+
+//       {/* Programs Section */}
+//       <section className="bg-gray-100 py-20 px-6 md:px-20">
+//         <div className="max-w-7xl mx-auto text-center">
+//           <motion.h2
+//             initial={{ opacity: 0, y: 20 }}
+//             whileInView={{ opacity: 1, y: 0 }}
+//             transition={{ duration: 0.7 }}
+//             className="text-4xl font-bold mb-14 text-[#e91e63]"
+//           >
+//             Explore Our Initiatives
+//           </motion.h2>
+
+//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+//             {programs.map((p, i) => (
+//               <motion.div
+//                 key={i}
+//                 initial={{ opacity: 0, y: 30 }}
+//                 whileInView={{ opacity: 1, y: 0 }}
+//                 transition={{ duration: 0.6, delay: i * 0.2 }}
+//                 className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-[1.03] transition-all duration-300"
+//               >
+//                 <Image
+//                   src={p.image}
+//                   alt={p.title}
+//                   width={500}
+//                   height={240}
+//                   className="w-full h-60 object-cover"
+//                 />
+//                 <div className="p-6">
+//                   <h3 className="text-2xl font-bold mb-2 text-black">
+//                     {p.title}
+//                   </h3>
+//                   <p className="text-gray-700 text-sm">{p.description}</p>
+//                 </div>
+//               </motion.div>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+
+// {/* Partner Logos Slider */}
+// <section className="bg-white py-16">
+//   <h3 className="text-center text-3xl font-bold mb-12 text-[#00bcd4]">
+//     Partners & Collaborators
+//   </h3>
+//   <div className="overflow-hidden w-full">
+//     <div className="flex animate-scroll gap-20 px-12 items-center">
+//       {[...partners, ...partners].map((logo, i) => (
+//         <Link key={i} href="/partners" passHref>
+//           <div className="min-w-[160px] h-32 relative flex items-center justify-center">
+//             <Image
+//               src={logo}
+//               alt={`partner-${i}`}
+//               fill
+//               className="object-contain w-full h-full transition-transform duration-300 hover:scale-105"
+//             />
+//           </div>
+//         </Link>
+//       ))}
+//     </div>
+//   </div>
+// </section>
+
+
+    
+//     </div>
+//   );
+// }
+
+
+
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import Link from 'next/link'; // Make sure this import is at the top
+import Link from 'next/link';
 
-
-
+// ---------------- HERO IMAGES ----------------
 const heroImages = [
   '/programs/hero1.jpg',
   '/programs/hero2.jpg',
   '/programs/hero3.jpg',
 ];
 
+// ---------------- PROGRAMS STATIC DATA ----------------
 const programs = [
   {
     title: 'Child Education Drive',
@@ -23,8 +213,7 @@ const programs = [
   {
     title: 'Rural Health Missions',
     image: '/programs/img6.png',
-    description:
-      'Deploying mobile clinics to ensure healthcare reaches remote corners.',
+    description: 'Deploying mobile clinics to ensure healthcare reaches remote corners.',
   },
   {
     title: 'Green Future Project',
@@ -40,8 +229,7 @@ const programs = [
   {
     title: 'Rural Health Missions',
     image: '/programs/img6.png',
-    description:
-      'Deploying mobile clinics to ensure healthcare reaches remote corners.',
+    description: 'Deploying mobile clinics to ensure healthcare reaches remote corners.',
   },
   {
     title: 'Green Future Project',
@@ -50,22 +238,10 @@ const programs = [
   },
 ];
 
-const partners = [
-  '/partners/p1.png',
-  '/partners/p2.png',
-  '/partners/p3.png',
-  '/partners/p4.png',
-  '/partners/p5.png',
-  '/partners/p1.png',
-  '/partners/p2.png',
-  '/partners/p3.png',
-  '/partners/p4.png',
-  '/partners/p5.png',
-];
-
 export default function Programs() {
   const [current, setCurrent] = useState(0);
 
+  // HERO SLIDE AUTO ROTATE
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroImages.length);
@@ -73,50 +249,58 @@ export default function Programs() {
     return () => clearInterval(interval);
   }, []);
 
+  // ---------------- FETCH PARTNERS & COLLABORATORS ----------------
+  const [partners, setPartners] = useState([]);
+  const [collaborators, setCollaborators] = useState([]);
+
+  useEffect(() => {
+    fetchPartners();
+  }, []);
+
+  const fetchPartners = async () => {
+    try {
+      const res = await get({process.env.NEXT_PUBLIC_API_URL}/api/partners})
+      const data = await res.json();
+
+      setPartners(data.filter((p) => p.type === 'partner'));
+      setCollaborators(data.filter((c) => c.type === 'collaborator'));
+    } catch (err) {
+      console.error('Error fetching partners:', err);
+    }
+  };
+
+  // Combine for scrolling animation
+  const logos = [...partners, ...collaborators];
+
   return (
     <div className="bg-white">
 
-<section className="relative h-[70vh] mt-[80px] overflow-hidden">
-  {/* Background Images */}
-  {heroImages.map((img, i) => (
-    <motion.div
-      key={i}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: current === i ? 1 : 0 }}
-      transition={{ duration: 1 }}
-      className="absolute inset-0 w-full h-full"
-    >
-      <Image
-        src={img}
-        alt={`Hero ${i}`}
-        fill
-        className="object-cover"
-        priority={i === 0}
-      />
-    </motion.div>
-  ))}
+      {/* ---------------- HERO SECTION ---------------- */}
+      <section className="relative h-[70vh] mt-[80px] overflow-hidden">
 
-  {/* Overlay to darken background */}
-  <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-center px-4">
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-    >
-      <h1 className="text-3xl md:text-5xl font-bold mb-2">Our Programs</h1>
-      <p className="text-base md:text-xl max-w-xl mx-auto">
-        Empowering change through education, health, and sustainability.
-      </p>
-    </motion.div>
-  </div>
-</section>
+        {heroImages.map((img, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: current === i ? 1 : 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image src={img} alt={`Hero ${i}`} fill className="object-cover" priority={i === 0} />
+          </motion.div>
+        ))}
 
+        <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center text-white text-center px-4">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+            <h1 className="text-3xl md:text-5xl font-bold mb-2">Our Programs</h1>
+            <p className="text-base md:text-xl max-w-xl mx-auto">
+              Empowering change through education, health, and sustainability.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-
-
-
-
-      {/* Programs Section */}
+      {/* ---------------- PROGRAMS SECTION ---------------- */}
       <section className="bg-gray-100 py-20 px-6 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <motion.h2
@@ -137,17 +321,9 @@ export default function Programs() {
                 transition={{ duration: 0.6, delay: i * 0.2 }}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-[1.03] transition-all duration-300"
               >
-                <Image
-                  src={p.image}
-                  alt={p.title}
-                  width={500}
-                  height={240}
-                  className="w-full h-60 object-cover"
-                />
+                <Image src={p.image} alt={p.title} width={500} height={240} className="w-full h-60 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2 text-black">
-                    {p.title}
-                  </h3>
+                  <h3 className="text-2xl font-bold mb-2 text-black">{p.title}</h3>
                   <p className="text-gray-700 text-sm">{p.description}</p>
                 </div>
               </motion.div>
@@ -156,31 +332,30 @@ export default function Programs() {
         </div>
       </section>
 
-{/* Partner Logos Slider */}
-<section className="bg-white py-16">
-  <h3 className="text-center text-3xl font-bold mb-12 text-[#00bcd4]">
-    Partners & Collaborators
-  </h3>
-  <div className="overflow-hidden w-full">
-    <div className="flex animate-scroll gap-20 px-12 items-center">
-      {[...partners, ...partners].map((logo, i) => (
-        <Link key={i} href="/partners" passHref>
-          <div className="min-w-[160px] h-32 relative flex items-center justify-center">
-            <Image
-              src={logo}
-              alt={`partner-${i}`}
-              fill
-              className="object-contain w-full h-full transition-transform duration-300 hover:scale-105"
-            />
+      {/* ---------------- PARTNERS & COLLABORATORS SCROLLER ---------------- */}
+      <section className="bg-white py-16">
+        <h3 className="text-center text-3xl font-bold mb-12 text-[#00bcd4]">Partners & Collaborators</h3>
+
+        <div className="overflow-hidden w-full">
+          <div className="flex animate-scroll gap-20 px-12 items-center">
+
+            {[...logos, ...logos].map((item, i) => (
+              <Link key={i} href="/partners" passHref>
+                <div className="min-w-[160px] h-32 relative flex items-center justify-center cursor-pointer">
+                  <Image
+                    src={item.logoUrl}
+                    alt={item.name}
+                    fill
+                    className="object-contain transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+              </Link>
+            ))}
+
           </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-    
+        </div>
+      </section>
     </div>
   );
 }
+

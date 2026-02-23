@@ -72,7 +72,7 @@ const generateAndUploadReceipt = async (donationData) => {
     //     opacity: 0.02,
     //   });
     // }
-const watermarkPath = path.join(__dirname, "/assets/logo-bgg.png");
+const watermarkPath = path.join(__dirname, "/assets/bg.png");
 
 if (fs.existsSync(watermarkPath)) {
   doc.opacity(0.1); // Set desired opacity here (e.g., 0.1 or 0.2)
@@ -87,7 +87,7 @@ if (fs.existsSync(watermarkPath)) {
 
 
     // Top logo
-    const topLogoPath = path.join(__dirname, "/assets/vishoka_logo.png");
+    const topLogoPath = path.join(__dirname, "/assets/bg.png");
     if (fs.existsSync(topLogoPath)) {
       doc.image(topLogoPath, doc.page.width / 2 - 40, 55, {
         width: 80,

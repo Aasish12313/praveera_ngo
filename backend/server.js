@@ -33,7 +33,8 @@ app.get('/getall', (req, res) => {
 app.get('/delete', (req, res) => {
   res.send('response from delete');
 });
-
+const adminAuthRouter = require('./routers/adminAuthRouter');
+app.use('/admin', adminAuthRouter);
 
 const contactRouter = require('./routers/contactRouter');
 app.use('/contacts', contactRouter);
