@@ -259,7 +259,7 @@ export default function Programs() {
 
   const fetchPartners = async () => {
     try {
-      const res = await get({process.env.NEXT_PUBLIC_API_URL}/api/partners})
+      const res = await get(`{process.env.NEXT_PUBLIC_API_URL}/api/partners}`)
       const data = await res.json();
 
       setPartners(data.filter((p) => p.type === 'partner'));
@@ -275,7 +275,7 @@ export default function Programs() {
   return (
     <div className="bg-white">
 
-      {/* ---------------- HERO SECTION ---------------- */}
+
       <section className="relative h-[70vh] mt-[80px] overflow-hidden">
 
         {heroImages.map((img, i) => (

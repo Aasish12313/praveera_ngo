@@ -55,7 +55,7 @@ const drawTable = (doc, details, startX, startY, columnWidths) => {
 
 const generateAndUploadReceipt = async (donationData) => {
   const receiptNumber = await generateReceiptNumber();
-
+  
   try {
     const passThroughStream = new PassThrough();
     const doc = new PDFDocument({ size: "A4", margin: 50 });
@@ -99,7 +99,7 @@ if (fs.existsSync(watermarkPath)) {
 
     // Header
     doc.moveDown(6);
-    doc.fontSize(20).fillColor("#0D47A1").text("Visoka Welfare Foundation", { align: "center" });
+    doc.fontSize(20).fillColor("#0D47A1").text("Praveera Socio Culture  Welfare Foundation", { align: "center" });
     doc.fontSize(12).fillColor("gray").text("A registered non-profit organization", { align: "center" });
     doc.moveDown(1.5);
     doc.fontSize(16).fillColor("#2E7D32").text("DONATION RECEIPT", { align: "center", underline: true });
@@ -109,9 +109,9 @@ if (fs.existsSync(watermarkPath)) {
     doc.fontSize(12).fillColor("black")
       .text("This is to certify that ", { continued: true })
       .font("Helvetica-Bold").text(donationData.name, { continued: true })
-      .font("Helvetica").text(" has generously donated ₹     ", { continued: true })
+      .font("Helvetica").text(" has generously donated  Rupees     ", { continued: true })
       .font("Helvetica-Bold").text(`${donationData.amount}`, { continued: true })
-      .font("Helvetica").text(" to Visoka Welfare Foundation on ", { continued: true })
+      .font("Helvetica").text(" to Praveera Socio Culture  Welfare Foundation on ", { continued: true })
       .text(`${new Date().toLocaleDateString()}.`);
 
     // Tabular Data
